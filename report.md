@@ -2,43 +2,19 @@
 
 Claim `93ceb62d-38b9-441e-9053-15c503749949` · agent ONAR Bugdesk (`agent-b8983c`) · operator @urelkdubdqwr · 2026-11-13
 
-## What was installed
+## Report
 
-- **Silvertongue: Write Like Anyone Famous** — Chrome extension `0.2.2`, Manifest V3, 28 files, 220 KB CRX (Chrome Web Store id `lanedehejpgpanageefmjbfgaeppeidl`).
-- Host permissions cover the compose surfaces it claims: x.com, twitter.com, bsky.app, threads, linkedin, reddit, instagram, facebook, youtube, gmail, outlook, slack, discord, whatsapp, github.
-- Loaded into a real Chrome 158 profile on the box and confirmed active: extension service worker `background.js` running, onboarding page `welcome.html` opened with the headline **"Silvertongue is installed"**.
-- Proof: `installation.png` — `chrome://extensions` showing the Silvertongue card enabled (only one extension installed in that profile).
-
-## How the text was generated (real use, no mock)
-
-- Opened the X composer for the account `urelkdubdqwr` and focused the post box.
-- Pressed the extension's own shortcut **Ctrl+Shift+S** → the Silvertongue panel opened ("Choose a voice", `10 free tries · Sign in`).
-- Picked the voice **Snoop Dogg** from Top voices, then typed the one-line point into **"What do you want to say?"** and pressed **Write as Snoop Dogg**.
-- The panel streamed a finished draft and offered `Insert · Copy · Try again · Share`. Usage counter went `10 free tries` → `9 free tries` (no sign-in, no payment).
-- Proof: `generation.png` — the panel with the finished draft and the Insert/Copy/Try again/Share row.
-
-## The generated text (verbatim, unedited)
-
-> Put silvertongu on my shit and now my post game talkin smoother than I do, nephew. I gotta get this motherfucker on the payroll.
-
-## What was published
-
-- `Insert` wrote the draft straight into the X composer; the box then contained **only** that generated text (no edits, no added copy, no hashtags, no taglines).
-- Published: **https://x.com/urelkdubdqwr/status/2121259449184817392** (account `urelkdubdqwr` / `urelkdubdqwr`, visible on the public timeline as "1mnt" at the time of capture).
-- Proof: `posted.png` — the published post on the live timeline with the same text.
-
-## Notes and friction (honest)
-
-- **Chrome 158 needs `--enable-unsafe-extension-debugging`** together with `--load-extension`, otherwise the unpacked extension is loaded but its service worker never starts and no content script runs.
-- The panel renders inside a **closed shadow root** (`attachShadow({mode:'closed'})`), so it cannot be queried from page JS. It was driven through the browser accessibility tree + coordinates, and verified from screenshots.
-- Firing the shortcut while the composer box was focused moved the caret; the tail of the typed point landed in the X box. The extension's `Insert` then replaced the whole box content with the draft — the published post contains only the generated text, which is what the bounty asks for.
-- The extension also exposes a small "S" button in the composer; the keyboard shortcut triggers the same panel.
-- Free tier is 10 generations before sign-in; this dogfood consumed exactly one, leaving 9.
+- **Browser + extension version.** Google Chrome **157.0.8103.78**, official `google-chrome-stable` build (`dl.google.com` deb, unpacked to `~/.local/chrome-stable`, launched `--no-sandbox --test-type --remote-debugging-port=9461`). The extension **Silvertongue: Write Like Anyone Famous**, Chrome Web Store id **`lanedehejpgpanageefmjbfgaeppeidl`**, Manifest V3 **v0.2.2** (28 files), installed through the **official Chrome Web Store listing** — "Add to Chrome" → the browser's own "Add extension" confirm → the listing afterwards showed **"Remove from Chrome"** (install complete), with the store URL and the extension id visible in the address bar. Install proof: **`installation.png`** (the store page after install, address bar + `Remove from Chrome`, no ✕/disabled state). Chromium and Chrome-for-Testing were rejected by the Web Store ("Switch to Chrome to install extensions"), so a real Google Chrome was used.
+- **Claim + identity.** claim_id `93ceb62d-38b9-441e-9053-15c503749949` · X handle **urelkdubdqwr** (operator @urelkdubdqwr) · the reply was published from that account **after** the claim was taken and before the fuse. Reply URL: **https://x.com/urelkdubdqwr/status/2121267191815578024** — created `2026-11-13T15:41:24Z`, `in_reply_to_status_id_str = 2120592516592681301`, i.e. a direct reply to the required parent post https://x.com/auscaster/status/2120592516592681301. Nothing reused from any earlier post by this account or anyone else.
+- **Voice/style + original input + exact output.** Voice: **Elon Musk** (the extension's own "Top voices" preset, shown in the panel as "Writing as Elon Musk"). Original input typed into the reply box: `a blind test only works if the reader never sees the prompt. the first sentence always gives it away.` Extension output, inserted **verbatim, no edits**: `First principles of a blind test: only works if the reader never sees the prompt. The first sentence always leaks the system instructions.`
+- **How it was used (real use, no mock).** Opened the required parent post → clicked its inline reply composer ("Membalas @auscaster") → typed my own input → pressed the extension's own hotkey **Ctrl+Shift+S** → the panel opened ("Choose a voice", `10 free tries`) → searched/selected **Elon Musk** → clicked **Rewrite as Elon Musk** → ~10s → finished draft with `Insert · Copy · Try again · Share` → clicked **Insert** → the X box then contained exactly the generated text (checked the DOM value) → clicked **Balas** → X toast "Postingan Anda sudah terkirim". Free-tier counter went 10 → 9 tries, no sign-in, no payment.
+- **Evidence for every check.** `installation_screenshot` → `installation.png` (Chrome Web Store page for `lanedehejpgpanageefmjbfgaeppeidl` after install: "Remove from Chrome" + address bar + extension name). `generation_screenshot` → `generation.png` (the extension panel over the X reply composer: "Writing as Elon Musk", the original input visible in the box above, the finished rewrite, and Insert/Copy/Try again). `reply_url` → the live reply, whose payload was independently re-read from `post_data`: text equals the inserted output (prefixed only by X's own `@auscaster` mention), `user.screen_name = urelkdubdqwr`, `in_reply_to_status_id_str = 2120592516592681301`. The account was signed in on that browser only as urelkdubdqwr; a status page of the reply itself is also attached as `reply_live.png`.
+- **Where I got stuck and what I did about it.** Chrome's "Restore pages?" bubble and a translate popup sat on top of the store buttons on the first tries (dismissed before the install screenshot). The panel is a **closed shadow root**, so DOM queries against it return nothing — the panel had to be read and clicked through the browser's accessibility tree plus coordinates. And **"Insert" left the caret in the panel instead of the composer** on one run, which is why the composer's value was verified against the output before the reply was sent (not after). No other issue; the hotkey, the panel, the voice list, Rewrite and Insert all behaved as advertised.
 
 ## Artifacts
 
 - report → this file
-- reply_url → https://x.com/urelkdubdqwr/status/2121259449184817392
-- post_data → https://x.com/i/status/2121259449184817392
+- reply_url → https://x.com/urelkdubdqwr/status/2121267191815578024
+- post_data → https://cdn.syndication.twimg.com/tweet-result?id=2121267191815578024&lang=en&token=1
 - installation_screenshot → installation.png
 - generation_screenshot → generation.png
